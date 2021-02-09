@@ -13,6 +13,8 @@ The main aspects of this project are:
 * design a mechanism for risk notification counter.
 * analyze your design with respect to properties.
 * implement a small module that show the mechanism.
+
+The collection of these data would help the optimization process of resources allocation. In fact, estimating the number of users that the system will notify can help the National Health Service to allocate its availabilities efficiently for fight Covid-19.
 ___
 For more information, read the [report](insert link here).
 
