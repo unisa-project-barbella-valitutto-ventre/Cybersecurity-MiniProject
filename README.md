@@ -8,7 +8,7 @@ This repository is created for the mini project integration related to the "Cybe
 ___
 # Problem Description
 The integration work consists of a mini project related to [Proximity Tracing DP-3T protocol](https://github.com/DP-3T/documents), with the following target: the Government Authority is using a decentralized contact tracing system, like DP-3T, and wants to do a modification to have on the Server a counter of the risk notifications displayed on users' devices.</br>
-The main aspects in this project are:
+The main aspects of this project are:
 * identify *Privacy* and *Integrity* properties.
 * design a mechanism for risk notification counter.
 * analyze your design with respect to properties.
