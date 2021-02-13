@@ -8,17 +8,31 @@ sys.path.append('../')
 
 import socket
 import ssl
+#import pprint
 
 
 SERVER_CERT_PATH = "../rootCA/certs/rootCAcert.pem"
 SERVER_KEY_PATH = "../rootCA/private/rootCAkey.pem"
+CLIENT_CERT_PATH = "../intermediateCA/certs/rootCAIntermediateCA-chain.cert.pem"
+
+COMMON_NAME = "www.AppServer.com"
+
 
 HOST = '127.0.0.1'
-PORT = 8446     # analityc server port
+PORT = 8446     # analitycserver port
 
 MESSAGE_SIZE = 1
 
+def verify_client(cert):
+
+    if not cert:
+        raise Exception('')
+    if ('commonName', COMMON_NAME) not in cert['subject'][3]:
+        raise Exception("Certificate of Analitics Server is not valid")
+
+
 def main():
+
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -27,11 +41,20 @@ def main():
 
 
     client, fromaddr = server_socket.accept()
-    secure_sock = ssl.wrap_socket(client, server_side=True, certfile=SERVER_CERT_PATH, keyfile=SERVER_KEY_PATH)
+    secure_sock = ssl.wrap_socket(client, server_side=True, ca_certs=CLIENT_CERT_PATH, certfile=SERVER_CERT_PATH,
+    keyfile=SERVER_KEY_PATH, cert_reqs=ssl.CERT_REQUIRED, ssl_version=ssl.PROTOCOL_TLSv1_2)
 
     print(repr(secure_sock.getpeername()))
     print(secure_sock.cipher())
-    print(secure_sock.getsockname())
+    #print(pprint.pformat(secure_sock.getpeercert()))
+    
+    cert = secure_sock.getpeercert()
+
+    try:
+        verify_client(cert)
+    except Exception as e:
+        print(str(e))
+        raise SystemExit
     
     
     try:
@@ -62,3 +85,4 @@ def main():
 if __name__ == '__main__':
     while True:
         main()
+

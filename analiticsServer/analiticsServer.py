@@ -1,3 +1,4 @@
+
 #! /bin/python3
 
 import sys
@@ -13,6 +14,7 @@ APP_SERVER_CERT_PATH = "../intermediateCA/certs/rootCAIntermediateCA-chain.cert.
 APP_SERVER_KEY_PATH = "../intermediateCA/private/intermediateCAkey.pem"
 
 SERVER_CERT_PATH = "../rootCA/certs/rootCAcert.pem"
+
 COMMON_NAME = "ministero.gov.salute"
 COUNTRY_NAME = "IT"
 ORGANIZATION_NAME = "Ministero della Salute"
@@ -30,12 +32,7 @@ MESSAGE_SIZE = 1
 MAX_MESSAGE_SIZE = 512
 
 def verify_server(cert):
-    """
-    This function verifies the correct certificate used by App Server released by the authorities
-    :param cert: the certificate to be verified
-    :return: None
-    :raise Exception: if the certificate is not valid
-    """
+
     if not cert:
         raise Exception('')
     if ('commonName', COMMON_NAME_ISSUER) not in cert['issuer'][4] \
@@ -51,7 +48,13 @@ def send_data_to_server(data):
     context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
     context.verify_mode = ssl.CERT_REQUIRED
     context.load_verify_locations(SERVER_CERT_PATH)
-    secure_sock = context.wrap_socket(sock, server_hostname=HOST, server_side=False)
+    context.load_cert_chain(certfile=APP_SERVER_CERT_PATH, keyfile=APP_SERVER_KEY_PATH)
+    
+    if ssl.HAS_SNI:
+        secure_sock = context.wrap_socket(sock, server_side=False, server_hostname=HOST)
+    else:
+        secure_sock = context.wrap_socket(sock, server_side=False)
+
 
     cert = secure_sock.getpeercert()
     try:
@@ -67,6 +70,8 @@ def send_data_to_server(data):
     secure_sock.write(data) #invio ID al Server
 
     received_data = secure_sock.read(MAX_MESSAGE_SIZE)
+
+    ack_check = False
 
     if received_data.decode() == 'ACK':
         ack_check = True
@@ -133,3 +138,4 @@ def main():
 if __name__ == '__main__':
     while True:
         main()
+
