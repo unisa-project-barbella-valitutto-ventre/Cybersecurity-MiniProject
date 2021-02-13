@@ -16,6 +16,6 @@ The main aspects of this project are:
 
 The collection of these data would help the optimization process of resources allocation. In fact, estimating the number of users that the system will notify can help the National Health Service to allocate its availabilities efficiently for fight Covid-19.
 ___
-For more information, read the [report](insert link here).
+For more information, read the [report](https://github.com/unisa-project-barbella-valitutto-ventre/Cybersecurity-MiniProject/tree/main/doc).
 
 ##### Barbella, Valitutto, Ventre
