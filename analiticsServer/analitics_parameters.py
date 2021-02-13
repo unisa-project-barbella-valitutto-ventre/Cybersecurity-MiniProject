@@ -10,10 +10,6 @@ ANALITICS_SERVER_KEY_PATH = "../intermediateCA/private/intermediateCAkey.pem"
 
 AUTHORITY_SERVER_CERT_PATH = "../rootCA/certs/rootCAcert.pem"
 
-COMMON_NAME = "ministero.gov.salute"
-COUNTRY_NAME = "IT"
-ORGANIZATION_NAME = "Ministero della Salute"
-
 COUNTRY_NAME_ISSUER = "IT"
 COMMON_NAME_ISSUER = "ministero.gov.salute"
 ORGANIZATION_NAME_ISSUER = "Ministero della Salute"

@@ -10,7 +10,6 @@ import socket
 import ssl
 
 from analitics_parameters import ANALITICS_SERVER_CERT_PATH, ANALITICS_SERVER_KEY_PATH, AUTHORITY_SERVER_CERT_PATH
-from analitics_parameters import COMMON_NAME, COUNTRY_NAME, ORGANIZATION_NAME
 from analitics_parameters import COUNTRY_NAME_ISSUER, COMMON_NAME_ISSUER, ORGANIZATION_NAME_ISSUER
 
 
