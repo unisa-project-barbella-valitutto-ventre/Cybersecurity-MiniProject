@@ -3,7 +3,7 @@ import datetime
 import csv
 import fileinput
 
-def remove_code_after24h(expired_date):
+def remove_code_after_24h(expired_date):
         lines = list()
         with open('database.csv', 'r') as readFile:
             reader = csv.reader(readFile)
@@ -31,7 +31,7 @@ def check_datetime_code(date_to_check):
         print("Codice valido")
         return True
 
-def remove_ID_afterLoaded(loaded, id_loaded):
+def remove_ID_after_loaded(loaded, id_loaded):
     if loaded:
         with fileinput.input(files=('database.csv'), inplace=True, mode='r') as f:
             reader = csv.DictReader(f)
@@ -41,7 +41,7 @@ def remove_ID_afterLoaded(loaded, id_loaded):
                     row["id"] = "XXXXXX"
                 print(",".join([row["id"],row["cod_device"], row["id_time"], row["cod_time"]]))
 
-def remove_ID_after10m(ID_date):
+def remove_ID_after_10m(ID_date):
     with fileinput.input(files=('database.csv'), inplace=True, mode='r') as f:
         reader = csv.DictReader(f)
         print(",".join(reader.fieldnames))  # print back the headers
@@ -57,7 +57,7 @@ def check_id_date(ID_date):
 
     if elapsed_time > 600:
         print("ID scaduto")
-        remove_ID_after10m(ID_date)
+        remove_ID_after_10m(ID_date)
         return False
     else:
         print("Codice valido")
@@ -103,12 +103,12 @@ if __name__ == "__main__":
     #         mydict = [ [id_temp, c, id_t, cod_t] ]
     #         csvwriter.writerows(mydict)  
 
-    # remove_ID_after10m('2021-02-13 10:52:01.228181')
+    # remove_ID_after_10m('2021-02-13 10:52:01.228181')
 
-    # remove_code_after24h('2021-02-13 17:02:04.979664')
+    # remove_code_after_24h('2021-02-13 17:02:04.979664')
     # check_datetime_code('2021-02-13 17:02:04.978955')
 
-    remove_ID_afterLoaded(True, 'baOWopWMhV_z4Ew_fhWjeAQTfbC1-AYr5KxrEBcOE9c')
+    remove_ID_after_loaded(True, 'baOWopWMhV_z4Ew_fhWjeAQTfbC1-AYr5KxrEBcOE9c')
 
     # if check_id('K9BiqPFuTRbEl0DJRcEm9YZblJA1rLMoi4ZeKRKwoLc'):
     #     print('esiste')
