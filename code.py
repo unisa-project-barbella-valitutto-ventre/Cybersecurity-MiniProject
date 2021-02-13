@@ -1,17 +1,16 @@
 import secrets
 import datetime
-from prettytable import PrettyTable , from_csv
 import csv
+import fileinput
 
-def remove_code_after24h(code_date):
+def remove_code_after24h(expired_date):
         lines = list()
-        print('apro file csv')
         with open('database.csv', 'r') as readFile:
             reader = csv.reader(readFile)
             for row in reader:
                 lines.append(row)
                 for field in row:
-                    if field == code_date:
+                    if field == expired_date:
                         print('if')
                         lines.remove(row)
                     else:
@@ -22,36 +21,40 @@ def remove_code_after24h(code_date):
             writer.writerows(lines)
             print('ho scritto')
 
-def check_code(dict_date):
-    t = (datetime.datetime.now() - dict_date).total_seconds()
+def check_code(date_to_check):
+    t = (datetime.datetime.now() - date_to_check).total_seconds()
     print(t)
 
     if t > 86400:
         print("Codice scaduto")
-        remove_code_after24h(dict_date)
+        remove_code_after24h(date_to_check)
         return False
     else:
         print("Codice valido")
-        return False
+        return True
 
-def remove_ID_after10m(diz, ID_date):
-    key = get_key(ID_date)
-    try:
-        del diz[key]
-    except KeyError:
-        print(f'Key {key} not found')
+def remove_ID_after10m(ID_date):
 
-def check_id(diz, ID_date):
+    with fileinput.input(files=('database.csv'), inplace=True, mode='r') as f:
+        reader = csv.DictReader(f)
+        print(",".join(reader.fieldnames))  # print back the headers
+        for row in reader:
+            if row['id_time'] == ID_date:
+                row["id"] = "XXXXXX"
+            print(",".join([row["id"],row["cod_device"], row["id_time"], row["cod_time"]]))
+
+
+def check_id(ID_date):
     t = (datetime.datetime.now() - ID_date).total_seconds()
     print(t)
 
     if t > 600:
         print("ID scaduto")
-        remove_ID_after10m(diz, ID_date)
+        remove_ID_after10m(ID_date)
         return False
     else:
         print("Codice valido")
-        return False
+        return True
 
 def get_entry(cod_device):
     id_temp = secrets.token_urlsafe(32)
@@ -81,4 +84,5 @@ if __name__ == "__main__":
     # data = myTable.get_string()
     # with open('database.csv', 'wb') as f:
     #     f.write(data.encode())
-    remove_code_after24h('ZMnUC8g4eeE84ZCjXp4SoyrRocly9Liecc060DxeEGo')
+
+    remove_ID_after10m('2021-02-13 10:52:01.228181')
