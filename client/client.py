@@ -76,12 +76,12 @@ if __name__ == '__main__':
     #send ID to analitics server: ID = 1
     print("Example of Simulation\n")
     time.sleep(1)
-    print("Checking Expositions...\n")
+    print("Checking Expositions...")
     time.sleep(3)
     print("Checking Expositions... DONE\n")
     root = tk.Tk()
     root.withdraw()
     messagebox.showwarning('Notification Monitoring', 'Potential Exposure detected!\n')
     
-    send_data_to_server(b'2')
+    send_data_to_server(b'1')
 

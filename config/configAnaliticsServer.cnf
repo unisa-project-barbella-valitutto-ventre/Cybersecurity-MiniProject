@@ -151,7 +151,7 @@ localityName_default		= Roma
 #organizationalUnitName_default	=
 
 commonName			= Common name
-commonName_default		= www.AppServer.com
+commonName_default		= dp3t.expositionNumbers.com
 commonName_max			= 64
 
 #emailAddress			= Email Address

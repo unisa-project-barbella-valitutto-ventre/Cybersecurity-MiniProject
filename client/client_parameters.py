@@ -5,7 +5,7 @@ import os
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-COMMON_NAME = "www.AppServer.com"
+COMMON_NAME = "dp3t.expositionNumbers.com"
 ANALITICS_SERVER_CERT_PATH = "../intermediateCA/certs/rootCAIntermediateCA-chain.cert.pem"
 
 COUNTRY_NAME = "IT"
