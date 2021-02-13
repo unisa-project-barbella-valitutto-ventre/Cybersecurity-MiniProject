@@ -9,19 +9,9 @@ sys.path.append('../')
 import socket
 import ssl
 
-
-APP_SERVER_CERT_PATH = "../intermediateCA/certs/rootCAIntermediateCA-chain.cert.pem"
-APP_SERVER_KEY_PATH = "../intermediateCA/private/intermediateCAkey.pem"
-
-SERVER_CERT_PATH = "../rootCA/certs/rootCAcert.pem"
-
-COMMON_NAME = "ministero.gov.salute"
-COUNTRY_NAME = "IT"
-ORGANIZATION_NAME = "Ministero della Salute"
-
-COUNTRY_NAME_ISSUER = "IT"
-COMMON_NAME_ISSUER = "ministero.gov.salute"
-ORGANIZATION_NAME_ISSUER = "Ministero della Salute"
+from analitics_parameters import ANALITICS_SERVER_CERT_PATH, ANALITICS_SERVER_KEY_PATH, AUTHORITY_SERVER_CERT_PATH
+from analitics_parameters import COMMON_NAME, COUNTRY_NAME, ORGANIZATION_NAME
+from analitics_parameters import COUNTRY_NAME_ISSUER, COMMON_NAME_ISSUER, ORGANIZATION_NAME_ISSUER
 
 
 HOST = '127.0.0.1'
@@ -38,7 +28,7 @@ def verify_server(cert):
     if ('commonName', COMMON_NAME_ISSUER) not in cert['issuer'][4] \
             or ('countryName', COUNTRY_NAME_ISSUER) not in cert['issuer'][0] \
             or ('organizationName', ORGANIZATION_NAME_ISSUER) not in cert['issuer'][3]:
-        raise Exception("Certificate of rootCA is not valid")
+        raise Exception("Certificate of Authority Server is not valid")
 
 
 def send_data_to_server(data):
@@ -47,8 +37,8 @@ def send_data_to_server(data):
     sock.connect((HOST, server_PORT))
     context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
     context.verify_mode = ssl.CERT_REQUIRED
-    context.load_verify_locations(SERVER_CERT_PATH)
-    context.load_cert_chain(certfile=APP_SERVER_CERT_PATH, keyfile=APP_SERVER_KEY_PATH)
+    context.load_verify_locations(AUTHORITY_SERVER_CERT_PATH)
+    context.load_cert_chain(certfile=ANALITICS_SERVER_CERT_PATH, keyfile=ANALITICS_SERVER_KEY_PATH)
     
     if ssl.HAS_SNI:
         secure_sock = context.wrap_socket(sock, server_side=False, server_hostname=HOST)
@@ -57,6 +47,7 @@ def send_data_to_server(data):
 
 
     cert = secure_sock.getpeercert()
+    
     try:
         verify_server(cert)
     except Exception as e:
@@ -72,7 +63,6 @@ def send_data_to_server(data):
     received_data = secure_sock.read(MAX_MESSAGE_SIZE)
 
     ack_check = False
-
     if received_data.decode() == 'ACK':
         ack_check = True
         print("ACK received from Server.\n")
@@ -80,8 +70,6 @@ def send_data_to_server(data):
 
     if received_data.decode() == 'NACK':
         ack_check = False
-        print(ack_check)
-
         print("NACK received from Server.\n")
 
     secure_sock.close()
@@ -97,7 +85,7 @@ def main():
 
 
     client, fromaddr = server_socket.accept()
-    secure_sock = ssl.wrap_socket(client, server_side=True, certfile=APP_SERVER_CERT_PATH, keyfile=APP_SERVER_KEY_PATH)
+    secure_sock = ssl.wrap_socket(client, server_side=True, certfile=ANALITICS_SERVER_CERT_PATH, keyfile=ANALITICS_SERVER_KEY_PATH)
 
     print(repr(secure_sock.getpeername()))
     print(secure_sock.cipher())
@@ -136,6 +124,7 @@ def main():
 
 
 if __name__ == '__main__':
+    print("*** ANALITICS Server ***\n")
     while True:
         main()
 

@@ -6,23 +6,19 @@ import tkinter as tk
 from tkinter import messagebox
 import time
 
-COMMON_NAME = "www.AppServer.com"
-APP_SERVER_CERT_PATH = "../intermediateCA/certs/rootCAIntermediateCA-chain.cert.pem"
+from client_parameters import COMMON_NAME, ANALITICS_SERVER_CERT_PATH
+from client_parameters import COUNTRY_NAME, ORGANIZATION_NAME, COUNTRY_NAME_ISSUER
+from client_parameters import COMMON_NAME_ISSUER, ORGANIZATION_NAME_ISSUER
+
+
 HOST = "127.0.0.1"
 PORT = 8443
 MAX_MESSAGE_SIZE = 512
 
-COUNTRY_NAME = "IT"
-ORGANIZATION_NAME = "Ministero della Salute"
-
-COUNTRY_NAME_ISSUER = "IT"
-COMMON_NAME_ISSUER = "ministero.gov.salute"
-ORGANIZATION_NAME_ISSUER = "Ministero della Salute"
-
 
 def verify_server(cert):
     """
-    This function verifies the correct certificate used by App Server released by the authorities
+    This function verifies the correct certificate used by Analitics Server released by the authorities
     :param cert: the certificate to be verified
     :return: None
     :raise Exception: if the certificate is not valid
@@ -31,30 +27,21 @@ def verify_server(cert):
         raise Exception('')
     if ('commonName', COMMON_NAME) not in cert['subject'][3] or ('countryName', COUNTRY_NAME) not in cert['subject'][
         0] or ('organizationName', ORGANIZATION_NAME) not in cert['subject'][2]:
-        raise Exception("Certificate of intermediateCA is not valid")
+        raise Exception("Certificate of Analitics Server is not valid")
 
     if ('commonName', COMMON_NAME_ISSUER) not in cert['issuer'][4] \
             or ('countryName', COUNTRY_NAME_ISSUER) not in cert['issuer'][0] \
             or ('organizationName', ORGANIZATION_NAME_ISSUER) not in cert['issuer'][3]:
-        raise Exception("Certificate of rootCA is not valid")
+        raise Exception("Certificate of Authority Server is not valid")
 
 
 def send_data_to_server(data):
-    """
-    This function contains:
-        - Opening a socket
-        - Getting the server certificate and verifying it
-        - Reading the welcome message from the server
-        - Reading the report response from the server
-        - Closing the socket
-    :param data:
-    :return:
-    """
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((HOST, PORT))
     context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
     context.verify_mode = ssl.CERT_REQUIRED
-    context.load_verify_locations(APP_SERVER_CERT_PATH)
+    context.load_verify_locations(ANALITICS_SERVER_CERT_PATH)
     secure_sock = context.wrap_socket(sock, server_hostname=HOST, server_side=False)
 
     cert = secure_sock.getpeercert()
@@ -74,11 +61,11 @@ def send_data_to_server(data):
     print(received_data.decode())
 
     if received_data.decode() == 'ACK':
-        print("\nDati caricati. Set F sul dispositivo\n")
+        print("Dati caricati.\n")
     #Da fare: return bool
 
     if received_data.decode() == 'NACK':
-        print("\nDati non caricati. Set T sul dispositivo\n")
+        print("Dati non caricati.\n")
     #Da fare: return bool
 
 
@@ -96,5 +83,5 @@ if __name__ == '__main__':
     root.withdraw()
     messagebox.showwarning('Notification Monitoring', 'Potential Exposure detected!\n')
     
-    send_data_to_server(b'1')
+    send_data_to_server(b'2')
 
