@@ -96,5 +96,5 @@ if __name__ == '__main__':
     root.withdraw()
     messagebox.showwarning('Notification Monitoring', 'Potential Exposure detected!\n')
     
-    send_data_to_server(b'2')
+    send_data_to_server(b'1')
 
