@@ -3,7 +3,7 @@ import datetime
 import csv
 import fileinput
 
-standard_id = 'X'*43
+STANDARD_ID = 'X'*43
 
 '''
 def remove_code_after_24h(expired_date):
@@ -43,7 +43,7 @@ def remove_ID_after_loaded(loaded, id_loaded):
             print(",".join(reader.fieldnames))  # print back the headers
             for row in reader:
                 if row['id'] == id_loaded:
-                    row["id"] = standard_id
+                    row["id"] = STANDARD_ID
                 print(",".join([row["id"],row["cod_device"], row["id_time"], row["cod_time"]]))
 
 # use this function to substitute id every 10 minutes in case of use of a thread
@@ -53,7 +53,7 @@ def remove_ID_after_10m(ID_date):
         print(",".join(reader.fieldnames)) 
         for row in reader:
             if row['id_time'] == ID_date:
-                row["id"] = standard_id
+                row["id"] = STANDARD_ID
             print(",".join([row["id"],row["cod_device"], row["id_time"], row["cod_time"]]))
 '''
 
@@ -91,7 +91,7 @@ def check_id_date(ID_date):
 # function to check validity of an ID
 def check_id(ID_to_verify):
     i=0
-    if ID_to_verify != standard_id:
+    if ID_to_verify != STANDARD_ID:
         with open('database.csv', 'r') as readFile:
             reader = csv.DictReader(readFile, delimiter=',')
             for lines in reader:
@@ -117,7 +117,7 @@ def check_id(ID_to_verify):
         return False
 
 # function to populate database
-def get_entry(cod_device):
+def get_entry():
     id_temp = secrets.token_urlsafe(32)
     id_time = datetime.datetime.now()
     time_code = datetime.datetime.now()
