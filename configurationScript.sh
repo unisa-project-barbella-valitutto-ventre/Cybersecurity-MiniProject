@@ -69,5 +69,9 @@ echo "Verifing the certificates chain"
 # Additional operation to check if the certificates chain is correct or not
 openssl verify -CAfile rootCA/certs/rootCAcert.pem intermediateCA/certs/intermediateCAcert.pem
 
+echo "Populating database to simulate the system"
+cd authorityServer
+python3 create_database.py
+
 echo "Initial Configuration Finished !"
 sleep 3
