@@ -1,8 +1,6 @@
 """
 This module contains parameters for client connection
 """
-import os
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SERVER_CERT_PATH = "../rootCA/certs/rootCAcert.pem"
 SERVER_KEY_PATH = "../rootCA/private/rootCAkey.pem"

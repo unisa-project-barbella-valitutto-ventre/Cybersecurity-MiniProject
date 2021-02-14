@@ -2,11 +2,10 @@
 This module contains parameters for client connection
 """
 
-COMMON_NAME = "dp3t.expositionNumbers.com"
 ANALYTICS_SERVER_CERT_PATH = "../intermediateCA/certs/rootCAIntermediateCA-chain.cert.pem"
+ANALYTICS_SERVER_KEY_PATH = "../intermediateCA/private/intermediateCAkey.pem"
 
-COUNTRY_NAME = "IT"
-ORGANIZATION_NAME = "Ministero della Salute"
+AUTHORITY_SERVER_CERT_PATH = "../rootCA/certs/rootCAcert.pem"
 
 COUNTRY_NAME_ISSUER = "IT"
 COMMON_NAME_ISSUER = "ministero.gov.salute"

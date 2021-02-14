@@ -1,7 +1,7 @@
 #! /bin/python3
 
 import sys
-import code
+import utils
 
 sys.path.append('../')
 
@@ -24,7 +24,7 @@ def verify_client(cert):
         raise Exception('')
     if ('commonName', COMMON_NAME) not in cert['subject'][3] or ('countryName', COUNTRY_NAME) not in cert['subject'][
         0] or ('organizationName', ORGANIZATION_NAME) not in cert['subject'][2]:
-        raise Exception("Certificate of Analitics Server is not valid")
+        raise Exception("Certificate of Analytics Server is not valid")
 
 
 

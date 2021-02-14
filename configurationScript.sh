@@ -7,7 +7,7 @@ echo "Initial Configuration..."
 rm -rf *.pem
 rm -rf rootCA
 rm -rf intermediateCA
-rm -f analiticsServer/counter.txt
+rm -f analyticsServer/counter.txt
 
 
 echo "Building the rootCA directory"
@@ -29,8 +29,8 @@ touch intermediateCA/index.txt
 echo 01 > intermediateCA/serial
 
 echo "Counter initialization"
-touch analiticsServer/counter.txt
-echo 0 > analiticsServer/counter.txt
+touch analyticsServer/counter.txt
+echo 0 > analyticsServer/counter.txt
 
 
 echo "Installing pycryptodome libraries and python3 interpreter"
@@ -51,7 +51,7 @@ echo "Creating the intermediateCA private key"
 openssl genrsa -out intermediateCA/private/intermediateCAkey.pem 4096
 
 echo "Creating a request to the rootCA to sign the intermediateCA certificate"
-openssl req -new -sha256 -key intermediateCA/private/intermediateCAkey.pem -out intermediateCA/csr/intermediateCA.csr.pem -config config/configAnaliticsServer.cnf -batch
+openssl req -new -sha256 -key intermediateCA/private/intermediateCAkey.pem -out intermediateCA/csr/intermediateCA.csr.pem -config config/configAnalyticsServer.cnf -batch
 
 echo "Signing the intermediateCA certificate"
 openssl ca -extensions v3_intermediate_ca -days 365 -notext -batch -in intermediateCA/csr/intermediateCA.csr.pem -out intermediateCA/certs/intermediateCAcert.pem -config config/configCA.cnf
