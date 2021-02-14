@@ -1,7 +1,7 @@
 #! /bin/python3
 
 import sys
-import utils
+from utils import *
 
 sys.path.append('../')
 
@@ -16,7 +16,7 @@ from authority_parameters import COMMON_NAME, ORGANIZATION_NAME, COUNTRY_NAME
 HOST = '127.0.0.1'
 PORT = 8446     # analitycserver port
 
-MESSAGE_SIZE = 1
+MESSAGE_SIZE = 43
 
 def verify_client(cert):
 
@@ -56,15 +56,15 @@ def main():
     
     try:
         secure_sock.write(b"Authority Server connected !")
-        data = secure_sock.read(MESSAGE_SIZE)   # id dimension
-        print("ID received: " + data.decode())
+        data = secure_sock.read(MESSAGE_SIZE)   # id received from analytics server
+        print("ID from analytics server: " + data.decode())
         
         if len(data) != MESSAGE_SIZE:
             raise IndexError
 
         # check id in database
         id_to_check = data.decode()
-        if b'1' == data:
+        if check_id(id_to_check):
             secure_sock.write(b"ACK")
             print("ACK sent !\n")
         else:

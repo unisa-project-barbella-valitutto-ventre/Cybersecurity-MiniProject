@@ -13,7 +13,7 @@ from client_parameters import COMMON_NAME_ISSUER, ORGANIZATION_NAME_ISSUER
 
 HOST = "127.0.0.1"
 PORT = 8443
-MAX_MESSAGE_SIZE = 512
+MAX_MESSAGE_SIZE = 43
 
 
 def verify_server(cert):
@@ -83,5 +83,5 @@ if __name__ == '__main__':
     root.withdraw()
     messagebox.showwarning('Notification Monitoring', 'Potential Exposure detected!\n')
     
-    send_data_to_server(b'1')
+    send_data_to_server(b'gmVDpxaN1j9_ThN_LOI1_maCctwrgpVtVgTUYHLngEU')
 

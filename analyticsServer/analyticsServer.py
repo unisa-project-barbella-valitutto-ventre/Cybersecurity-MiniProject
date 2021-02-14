@@ -17,8 +17,7 @@ HOST = '127.0.0.1'
 client_PORT = 8443
 server_PORT = 8446
 
-MESSAGE_SIZE = 1
-MAX_MESSAGE_SIZE = 512
+MAX_MESSAGE_SIZE = 43
 
 def verify_server(cert):
 
@@ -93,11 +92,11 @@ def main():
     
     try:
         secure_sock.write(b"Analytics Server connected !")
-        data = secure_sock.read(MESSAGE_SIZE)
-        
-        if len(data) != MESSAGE_SIZE:
-            raise IndexError
+        data = secure_sock.read(MAX_MESSAGE_SIZE)
 
+        if len(data) != MAX_MESSAGE_SIZE:
+            raise IndexError
+        
         ack_check = send_data_to_server(data)
         if ack_check:
             count_read = open("counter.txt", "r").read()
