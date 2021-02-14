@@ -33,10 +33,12 @@ touch analyticsServer/counter.txt
 echo 0 > analyticsServer/counter.txt
 
 
-echo "Installing pycryptodome libraries and python3 interpreter"
+echo "Installing libraries"
 sleep 3
 sudo apt install python3-pip
 pip3 install pycryptodome
+sudo apt-get update
+sudo apt-get install python3-tk
 
 echo "Creating the rootCA private key"
 openssl genrsa  -out rootCA/private/rootCAkey.pem 4096
