@@ -1,5 +1,5 @@
 """
-This module contains parameters for client connection
+This module contains parameters for analytics Server connection
 """
 
 ANALYTICS_SERVER_CERT_PATH = "../intermediateCA/certs/rootCAIntermediateCA-chain.cert.pem"

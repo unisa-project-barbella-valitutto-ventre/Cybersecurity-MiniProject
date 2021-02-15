@@ -36,15 +36,7 @@ def check_datetime_code(date_to_check):
         print("Device code valid!")
         return True
 
-def remove_ID_after_loaded(loaded, id_loaded):
-    if loaded:
-        with fileinput.input(files=('database.csv'), inplace=True, mode='r') as f:
-            reader = csv.DictReader(f)
-            print(",".join(reader.fieldnames))  # print back the headers
-            for row in reader:
-                if row['id'] == id_loaded:
-                    row["id"] = STANDARD_ID
-                print(",".join([row["id"],row["cod_device"], row["id_time"], row["cod_time"]]))
+
 
 # use this function to substitute id every 10 minutes in case of use of a thread
 def remove_ID_after_10m(ID_date):
@@ -56,7 +48,16 @@ def remove_ID_after_10m(ID_date):
                 row["id"] = STANDARD_ID
             print(",".join([row["id"],row["cod_device"], row["id_time"], row["cod_time"]]))
 '''
-
+def remove_ID_after_loaded(loaded, id_loaded):
+    if loaded:
+        with fileinput.input(files=('database.csv'), inplace=True, mode='r') as f:
+            reader = csv.DictReader(f)
+            print(",".join(reader.fieldnames))  # print back the headers
+            for row in reader:
+                if row['id'] == id_loaded:
+                    row["id"] = STANDARD_ID
+                print(",".join([row["id"],row["cod_device"], row["id_time"], row["cod_time"]]))
+                
 # Delete entire row using an ID_date relative to ID_loaded
 def remove_all_after_10m(ID_date):
     lines = list()

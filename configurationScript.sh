@@ -3,12 +3,10 @@
 echo "Initial Configuration..."
 
 # remove previous .pem and .txt files and specified directories
-
 rm -rf *.pem
 rm -rf rootCA
 rm -rf intermediateCA
 rm -f analyticsServer/counter.txt
-
 
 echo "Building the rootCA directory"
 # Build directory tree for rootCA (certs,private) and set up the initial files
@@ -31,7 +29,6 @@ echo 01 > intermediateCA/serial
 echo "Counter initialization"
 touch analyticsServer/counter.txt
 echo 0 > analyticsServer/counter.txt
-
 
 echo "Installing libraries"
 sleep 3

@@ -8,8 +8,8 @@ sys.path.append('../')
 
 import socket
 import ssl
+import time
 #import pprint
-
 from authority_parameters import SERVER_CERT_PATH, SERVER_KEY_PATH, CLIENT_CERT_PATH
 from authority_parameters import COMMON_NAME, ORGANIZATION_NAME, COUNTRY_NAME
 
@@ -26,16 +26,12 @@ def verify_client(cert):
         0] or ('organizationName', ORGANIZATION_NAME) not in cert['subject'][2]:
         raise Exception("Certificate of Analytics Server is not valid")
 
-
-
 def main():
-
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.bind((HOST, PORT))
     server_socket.listen(10)
-
 
     client, fromaddr = server_socket.accept()
     secure_sock = ssl.wrap_socket(client, server_side=True, ca_certs=CLIENT_CERT_PATH, certfile=SERVER_CERT_PATH,
@@ -44,7 +40,6 @@ def main():
     print(repr(secure_sock.getpeername()))
     print(secure_sock.cipher())
     #print(pprint.pformat(secure_sock.getpeercert()))
-    
     cert = secure_sock.getpeercert()
 
     try:
@@ -52,7 +47,6 @@ def main():
     except Exception as e:
         print(str(e))
         raise SystemExit
-    
     
     try:
         secure_sock.write(b"Authority Server connected !")
@@ -65,9 +59,11 @@ def main():
         # check id in database
         id_to_check = data.decode()
         if check_id(id_to_check):
+            time.sleep(1)
             secure_sock.write(b"ACK")
             print("ACK sent !\n")
         else:
+            time.sleep(1)
             secure_sock.write(b"NACK")
             print("NACK sent !\n")
 
@@ -77,7 +73,6 @@ def main():
     finally:
         secure_sock.close()
         server_socket.close()
-
 
 if __name__ == '__main__':
     print("*** AUTHORITY Server ***\n")

@@ -5,13 +5,11 @@ import sys
 
 sys.path.append('../')
 
-
 import socket
 import ssl
-
+import time
 from analytics_parameters import ANALYTICS_SERVER_CERT_PATH, ANALYTICS_SERVER_KEY_PATH, AUTHORITY_SERVER_CERT_PATH
 from analytics_parameters import COUNTRY_NAME_ISSUER, COMMON_NAME_ISSUER, ORGANIZATION_NAME_ISSUER
-
 
 HOST = '127.0.0.1'
 client_PORT = 8443
@@ -43,7 +41,6 @@ def send_data_to_server(data):
     else:
         secure_sock = context.wrap_socket(sock, server_side=False)
 
-
     cert = secure_sock.getpeercert()
     
     try:
@@ -55,9 +52,7 @@ def send_data_to_server(data):
 
     received_data = secure_sock.read(MAX_MESSAGE_SIZE)
     print(received_data.decode())
-
-    secure_sock.write(data) #invio ID al Server
-
+    secure_sock.write(data) #Forward ID to authoritative Server
     received_data = secure_sock.read(MAX_MESSAGE_SIZE)
 
     ack_check = False
@@ -81,7 +76,6 @@ def main():
     server_socket.bind((HOST, client_PORT))
     server_socket.listen(10)
 
-
     client, fromaddr = server_socket.accept()
     secure_sock = ssl.wrap_socket(client, server_side=True, certfile=ANALYTICS_SERVER_CERT_PATH, keyfile=ANALYTICS_SERVER_KEY_PATH)
 
@@ -98,6 +92,7 @@ def main():
             raise IndexError
         
         ack_check = send_data_to_server(data)
+        time.sleep(1)
         if ack_check:
             count_read = open("counter.txt", "r").read()
             counter_update = int(count_read) + 1
@@ -105,12 +100,11 @@ def main():
             count_write = open("counter.txt", "w")
             count_write.write(str(counter_update))    
             print("Counter Updated.\n")
-            secure_sock.write(b'ACK') #invio dati al dispositivo
+            secure_sock.write(b'ACK') #Send ACK to device
 
         else:
             print("Counter Not Updated.\n")
-            secure_sock.write(b'NACK') #invio dati al dispositivo
-
+            secure_sock.write(b'NACK') #Send NACK to device
 
     except IndexError as e:\
         secure_sock.write(b'NACK')
@@ -118,8 +112,6 @@ def main():
     finally:
         secure_sock.close()
         server_socket.close()
-
-
 
 if __name__ == '__main__':
     print("*** ANALYTICS Server ***\n")

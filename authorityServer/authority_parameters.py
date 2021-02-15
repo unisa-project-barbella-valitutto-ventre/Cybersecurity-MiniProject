@@ -1,5 +1,5 @@
 """
-This module contains parameters for client connection
+This module contains parameters for authority Server connection
 """
 
 SERVER_CERT_PATH = "../rootCA/certs/rootCAcert.pem"
