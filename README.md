@@ -30,7 +30,7 @@ Here are some steps to follow if you want to launch a simulation of the develope
 This script is implemented to prepare initialize the workspace. In particular, it removes previous old files, builds the new tree directory, initializes the notificatios counter to ZERO, installing the libraries (in the case you don't have them). Finally, the script creates new certificates for entities and populates the database with updated entries. In order to prepare the workspace you need to run this script with these commands:
 ```shell
 cd ~/Cybersecurity-MiniProject
-./configurationScript.sh
+bash configurationScript.sh
 ```
 
 ### Launch the Demo
@@ -39,7 +39,7 @@ Now it is possible to launch a demo to see how the module works. If you are usin
 #### with Ubuntu
 To make things easier to run, we have decided to integrate the ```runSimulation.sh``` script that automatically opens three terminal windows and runs the implemented code. The only thing to do is to run the following command:
 ```bash
-./runSimulation.sh
+bash runSimulation.sh
 ```
 #### with Linux Distros
 If you want to launch a demo, you have to open three terminal and follow these steps:</br>
