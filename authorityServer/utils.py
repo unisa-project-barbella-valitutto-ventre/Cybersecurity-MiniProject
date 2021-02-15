@@ -116,21 +116,5 @@ def check_id(ID_to_verify):
     else:
         return False
 
-# function to populate database
-def get_entry():
-    id_temp = secrets.token_urlsafe(32)
-    id_time = datetime.datetime.now()
-    time_code = datetime.datetime.now()
-    return id_temp, id_time, time_code
 
 # if __name__ == "__main__":
-#     mydict = {}
-#     fields = ['id', 'cod_device', 'id_time', 'cod_time']
-#     filename = "database.csv"
-#     with open(filename, 'w') as csvfile:  
-#         csvwriter = csv.writer(csvfile)   
-#         csvwriter.writerow(fields)
-#         for c in range (0,10):
-#             id_temp, id_t, cod_t = get_entry(c)
-#             mydict = [ [id_temp, c, id_t, cod_t] ]
-#             csvwriter.writerows(mydict)  
