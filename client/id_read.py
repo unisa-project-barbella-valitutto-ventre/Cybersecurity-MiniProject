@@ -10,7 +10,7 @@ def read_csv(csv_path, read_valid_id):
         if read_valid_id:
             (next(csvreader))
         else:
-            for i in range(0,5):
+            for i in range(0,11):
                 (next(csvreader))
 
         for row in csvreader:

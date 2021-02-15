@@ -21,7 +21,7 @@ if __name__ == "__main__":
             mydict = [ [id_temp, device_code, id_time, time_code] ]
             csvwriter.writerows(mydict)
 
-        for c in range (0,5):
+        for c in range (0,10):
             id_temp = secrets.token_urlsafe(32)
             device_code = "Apple_"+secrets.token_urlsafe(8)
             id_time = datetime.datetime.now() - datetime.timedelta(minutes=15)

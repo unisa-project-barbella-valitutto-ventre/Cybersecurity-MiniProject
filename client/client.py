@@ -86,6 +86,7 @@ if __name__ == '__main__':
     root.withdraw()
     messagebox.showwarning('Notification Monitoring', 'Potential Exposure detected!\n')
     id = read_csv(PATH_TO_CSV, True)
+    # STANDARD_ID = 'X'*43
     send_data_to_server(str.encode(id))
 
     #ID not valid

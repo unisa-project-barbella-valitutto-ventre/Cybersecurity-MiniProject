@@ -36,8 +36,6 @@ def check_datetime_code(date_to_check):
         print("Device code valid!")
         return True
 
-
-
 # use this function to substitute id every 10 minutes in case of use of a thread
 def remove_ID_after_10m(ID_date):
     with fileinput.input(files=('database.csv'), inplace=True, mode='r') as f:
@@ -48,18 +46,17 @@ def remove_ID_after_10m(ID_date):
                 row["id"] = STANDARD_ID
             print(",".join([row["id"],row["cod_device"], row["id_time"], row["cod_time"]]))
 '''
-def remove_ID_after_loaded(loaded, id_loaded):
-    if loaded:
-        with fileinput.input(files=('database.csv'), inplace=True, mode='r') as f:
-            reader = csv.DictReader(f)
-            print(",".join(reader.fieldnames))  # print back the headers
-            for row in reader:
-                if row['id'] == id_loaded:
-                    row["id"] = STANDARD_ID
-                print(",".join([row["id"],row["cod_device"], row["id_time"], row["cod_time"]]))
+def remove_ID_after_loaded(id_loaded):
+    with fileinput.input(files=('database.csv'), inplace=True, mode='r') as f:
+        reader = csv.DictReader(f)
+        print(",".join(reader.fieldnames))  # print back the headers
+        for row in reader:
+            if row['id'] == id_loaded:
+                row["id"] = STANDARD_ID
+            print(",".join([row["id"],row["cod_device"], row["id_time"], row["cod_time"]]))
                 
 # Delete entire row using an ID_date relative to ID_loaded
-def remove_all_after_10m(ID_date):
+def remove_id_row_after_10m(ID_date):
     lines = list()
     with open('database.csv', 'r') as readFile:
         reader = csv.reader(readFile)
@@ -82,8 +79,8 @@ def check_id_date(ID_date):
     print('Elapsed seconds: ', int(elapsed_time))
 
     if elapsed_time > 600:
-        print("ID to be removed")
-        remove_all_after_10m(ID_date)
+        # print("ID to be removed")
+        remove_id_row_after_10m(ID_date)
         return False
     else:
         print("Id valid")
@@ -100,9 +97,8 @@ def check_id(ID_to_verify):
                 temp_id_date = lines['id_time']
                 date_time_obj = datetime.datetime.strptime(temp_id_date, '%Y-%m-%d %H:%M:%S.%f')
                 if temp_id == ID_to_verify:
-                    print('id sono uguali')
                     if check_id_date(date_time_obj):
-                        print('flag')
+                        remove_ID_after_loaded(ID_to_verify)
                         i=1
                         break
                     else:
