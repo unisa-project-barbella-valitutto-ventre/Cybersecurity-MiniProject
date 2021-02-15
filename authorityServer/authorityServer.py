@@ -1,25 +1,31 @@
 #! /bin/python3
 
 import sys
-from utils import *
+from utils import check_id
 
 sys.path.append('../')
-
 
 import socket
 import ssl
 import time
-#import pprint
 from authority_parameters import SERVER_CERT_PATH, SERVER_KEY_PATH, CLIENT_CERT_PATH
 from authority_parameters import COMMON_NAME, ORGANIZATION_NAME, COUNTRY_NAME
 
 HOST = '127.0.0.1'
 PORT = 8446     # analitycserver port
 
-MESSAGE_SIZE = 43
+MESSAGE_SIZE = 43 # dimension of 32 byte encoded in Base64
 
 def verify_client(cert):
+    """
+    This function verifies the correct certificate used by Analytics Server released by the authority
 
+    Args:
+        cert : certificate to verify
+
+    Raises:
+        Exception: if certificate is not valid
+    """
     if not cert:
         raise Exception('')
     if ('commonName', COMMON_NAME) not in cert['subject'][3] or ('countryName', COUNTRY_NAME) not in cert['subject'][
@@ -27,7 +33,18 @@ def verify_client(cert):
         raise Exception("Certificate of Analytics Server is not valid")
 
 def main():
+    """
+     This function:
+        - Opens a socket
+        - Gets the Analytics Server certificate and verifying it
+        - Sends the welcome message to the Analytics Server
+        - Reads the response from the Analytics Server
+        - Closes the socket
 
+    Raises:
+        SystemExit: 
+        IndexError: send a NACK to Analytics Server
+    """
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.bind((HOST, PORT))

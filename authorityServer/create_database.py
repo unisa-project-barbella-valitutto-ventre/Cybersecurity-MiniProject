@@ -2,9 +2,20 @@ import secrets
 import datetime
 import csv
 
-# function to populate database
 
 if __name__ == "__main__":
+    """
+    Function to populate database in order to test the simulation:
+        - 10 entries with valid id (if you run the simulation in 10 minutes)
+        - 10 entries with invalid id
+
+    To generate an id we used the function token_urlsafe from secret library
+    that returns a random URL-safe text string, containing 32 random bytes.
+
+    To generate a device code we used the function token_urlsafe from secret library
+    that returns a random URL-safe text string, containing 8 random bytes.
+
+    """
     mydict = {}
 
     fields = ['id', 'cod_device', 'id_time', 'cod_time']
@@ -16,7 +27,7 @@ if __name__ == "__main__":
         for c in range (0,10):
             id_temp = secrets.token_urlsafe(32)
             device_code = "Android_"+secrets.token_urlsafe(8)
-            id_time = datetime.datetime.now()
+            id_time = datetime.datetime.now()   # time at this moment
             time_code = datetime.datetime.now()
             mydict = [ [id_temp, device_code, id_time, time_code] ]
             csvwriter.writerows(mydict)
@@ -24,7 +35,7 @@ if __name__ == "__main__":
         for c in range (0,10):
             id_temp = secrets.token_urlsafe(32)
             device_code = "Apple_"+secrets.token_urlsafe(8)
-            id_time = datetime.datetime.now() - datetime.timedelta(minutes=15)
-            time_code = datetime.datetime.now() - datetime.timedelta(hours=6)
+            id_time = datetime.datetime.now() - datetime.timedelta(minutes=15)  # time 15 minutes ago
+            time_code = datetime.datetime.now() - datetime.timedelta(hours=6)   # time 6 hours ago
             mydict = [ [id_temp, device_code, id_time, time_code] ]
             csvwriter.writerows(mydict)

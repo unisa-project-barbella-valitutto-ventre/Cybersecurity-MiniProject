@@ -18,7 +18,15 @@ server_PORT = 8446
 MAX_MESSAGE_SIZE = 43
 
 def verify_server(cert):
+    """
+    This function verifies the correct certificate used by Authority Server
 
+    Args:
+        cert : the certificate to verify
+
+    Raises:
+        Exception: if the certificate of Authority Server is not valid
+    """
     if not cert:
         raise Exception('')
     if ('commonName', COMMON_NAME_ISSUER) not in cert['issuer'][4] \
@@ -28,6 +36,24 @@ def verify_server(cert):
 
 
 def send_data_to_server(data):
+    """
+    This function:
+        - Opens a socket
+        - Gets Authority Server certificate and verifies it
+        - Reads the welcome message from the Authority Server
+        - Sends the data to Authority Server
+        - Reads the response from the Authority Server
+        - Closes the socket
+
+    Args:
+        data (byte): id received from device and sent to Authority Server
+
+    Raises:
+        SystemExit: 
+
+    Returns:
+        [bool]: ACK if it received ack from Authority Server, otherwise NACK
+    """
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((HOST, server_PORT))
@@ -70,7 +96,20 @@ def send_data_to_server(data):
     return ack_check
 
 def main():
+    """
+    This function:
+        - Opens a socket
+        - Reads id from device
+        - Opens a connection to the Authority Server
+        - Reads the response from the Authority Server
+            If receives ack:
+                Update the counter
+        - Sends the response to the device
+        - Closes the socket
 
+    Raises:
+        IndexError: sends NACK if the message size is wrong
+    """
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.bind((HOST, client_PORT))

@@ -20,11 +20,15 @@ MAX_MESSAGE_SIZE = 43
 
 def verify_server(cert):
     """
-    This function verifies the correct certificate used by Analytics Server released by the authorities
-    :param cert: the certificate to be verified
-    :return: None
-    :raise Exception: if the certificate is not valid
+    This function verifies the correct certificate used by Analytics Server released by the Authority (Root CA)
+
+    Args:
+        cert : certificate to be verified
+
+    Raises:
+        Exception: if the certificate is not valid
     """
+    
     if not cert:
         raise Exception('')
     if ('commonName', COMMON_NAME) not in cert['subject'][3] or ('countryName', COUNTRY_NAME) not in cert['subject'][
@@ -38,6 +42,21 @@ def verify_server(cert):
 
 
 def send_data_to_server(data):
+    """
+    This function:
+        - Opens a socket
+        - Gets Analytics Server certificate and verifies it
+        - Reads the welcome message from the Analytics Server
+        - Sends the data to Analytics Server
+        - Reads the response from the Analytics Server
+        - Closes the socket
+
+    Args:
+        data (byte): id to send to Analytics Server
+
+    Raises:
+        SystemExit: if Analytics Server certificate is invalid
+    """
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((HOST, PORT))
@@ -62,17 +81,20 @@ def send_data_to_server(data):
     print(received_data.decode())
     time.sleep(1)
     if received_data.decode() == 'ACK':
-        print("Dati caricati.\n")
-    #Da fare: return bool
+        print("Data loaded.\n")
 
     if received_data.decode() == 'NACK':
-        print("Dati non caricati.\n")
-    #Da fare: return bool
+        print("Data not loaded.\n")
 
     secure_sock.close()
     sock.close()
 
 if __name__ == '__main__':
+    """
+    We simulate two cases:
+        - Before we read a valid id from database
+        - After we read an invalid id from database
+    """
 
     print("### Notification Counter for Contact Tracing DP3T ###\n")
 
@@ -100,5 +122,3 @@ if __name__ == '__main__':
     messagebox.showwarning('Notification Monitoring', 'Potential Exposure detected!\n')
     id = read_csv(PATH_TO_CSV, False)
     send_data_to_server(str.encode(id))
-
-

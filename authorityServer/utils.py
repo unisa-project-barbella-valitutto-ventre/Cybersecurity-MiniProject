@@ -46,7 +46,14 @@ def remove_ID_after_10m(ID_date):
                 row["id"] = STANDARD_ID
             print(",".join([row["id"],row["cod_device"], row["id_time"], row["cod_time"]]))
 '''
-def remove_ID_after_loaded(id_loaded):
+
+def replace_ID_after_loaded(id_loaded):
+    """
+    This function replace an Id field of a row with a default Id (STANDARD_ID).
+
+    Args:
+        id_loaded (string): Id to replace
+    """
     with fileinput.input(files=('database.csv'), inplace=True, mode='r') as f:
         reader = csv.DictReader(f)
         print(",".join(reader.fieldnames))  # print back the headers
@@ -55,8 +62,13 @@ def remove_ID_after_loaded(id_loaded):
                 row["id"] = STANDARD_ID
             print(",".join([row["id"],row["cod_device"], row["id_time"], row["cod_time"]]))
                 
-# Delete entire row using an ID_date relative to ID_loaded
 def remove_id_row_after_10m(ID_date):
+    """
+    This function deletes an entire row using an ID_date associated to an Id.
+    
+    Args:
+        ID_date (string): datetime to identify a row
+    """
     lines = list()
     with open('database.csv', 'r') as readFile:
         reader = csv.reader(readFile)
@@ -72,8 +84,17 @@ def remove_id_row_after_10m(ID_date):
         writer.writerow(fields)
         writer.writerows(lines)
 
-# function to check validity of ID date
 def check_id_date(ID_date):
+    """
+    This function checks the validity of an Id date
+        - If time is elapsed it calls the remove_id_row_after_10m() function
+    
+    Args:
+        ID_date (datetime): Id datetime to compare with current datetime
+        
+    Returns:
+        [bool]: True if time is not elapsed, False otherwise
+    """
     time1 = datetime.datetime.now()
     elapsed_time = (time1 - ID_date).total_seconds()
     print('Elapsed seconds: ', int(elapsed_time))
@@ -86,8 +107,18 @@ def check_id_date(ID_date):
         print("Id valid")
         return True
 
-# function to check validity of an ID
 def check_id(ID_to_verify):
+    """
+    This function checks the validity of an Id.
+    It calls the function check_id_date():
+        - If True it calls replace_ID_after_loaded() and substitute the Id with a default value
+
+    Args:
+        ID_to_verify (string): ID to check
+
+    Returns:
+        [bool]: True if Id is still valid, False otherwise
+    """
     i=0
     if ID_to_verify != STANDARD_ID:
         with open('database.csv', 'r') as readFile:
@@ -95,10 +126,11 @@ def check_id(ID_to_verify):
             for lines in reader:
                 temp_id = lines['id']
                 temp_id_date = lines['id_time']
+                # converting a string in a datetime object
                 date_time_obj = datetime.datetime.strptime(temp_id_date, '%Y-%m-%d %H:%M:%S.%f')
                 if temp_id == ID_to_verify:
                     if check_id_date(date_time_obj):
-                        remove_ID_after_loaded(ID_to_verify)
+                        replace_ID_after_loaded(ID_to_verify)
                         i=1
                         break
                     else:
@@ -112,6 +144,5 @@ def check_id(ID_to_verify):
         return True
     else:
         return False
-
 
 # if __name__ == "__main__":
