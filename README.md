@@ -23,7 +23,6 @@ ___
 Here are some steps to follow if you want to launch a simulation of the developed module. First of all, you have to launch a Configuration Script, then launch the demo.
 
 ### Prerequisites
-In order to use the software you need:
 *   [Python](https://www.python.org/downloads/) ≥ 3.6
 *   [OpenSSL](https://www.openssl.org/source/)
 
