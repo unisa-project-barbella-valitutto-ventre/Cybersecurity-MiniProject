@@ -6,10 +6,8 @@ import tkinter as tk
 from tkinter import messagebox
 import time
 
-from client_parameters import COMMON_NAME, ANALYTICS_SERVER_CERT_PATH
-from client_parameters import COUNTRY_NAME, ORGANIZATION_NAME, COUNTRY_NAME_ISSUER
-from client_parameters import COMMON_NAME_ISSUER, ORGANIZATION_NAME_ISSUER
 from id_read import read_random_lines
+from client_parameters import *
 
 PATH_TO_CSV = "/../authorityServer/database.csv"
 NUMBER_OF_ID_TO_TEST = 4
@@ -99,6 +97,7 @@ if __name__ == '__main__':
 
     print("### Notification Counter for Contact Tracing DP3T ###\n")
 
+<<<<<<< HEAD
     # Starting simulation
     for i in range(0, NUMBER_OF_ID_TO_TEST):
         print("Simulation with ID received from device:")

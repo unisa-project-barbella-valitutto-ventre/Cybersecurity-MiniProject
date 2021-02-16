@@ -35,7 +35,7 @@ sleep 3
 sudo apt install python3-pip
 pip3 install pycryptodome
 sudo apt-get install python3-tk
-pip install python-secrets
+pip3 install python-secrets
 
 echo "Creating the rootCA private key"
 openssl genrsa  -out rootCA/private/rootCAkey.pem 4096
