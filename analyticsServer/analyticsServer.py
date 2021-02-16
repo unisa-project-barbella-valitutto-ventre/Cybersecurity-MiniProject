@@ -8,8 +8,8 @@ sys.path.append('../')
 import socket
 import ssl
 import time
-from analytics_parameters import ANALYTICS_SERVER_CERT_PATH, ANALYTICS_SERVER_KEY_PATH, AUTHORITY_SERVER_CERT_PATH
-from analytics_parameters import COUNTRY_NAME_ISSUER, COMMON_NAME_ISSUER, ORGANIZATION_NAME_ISSUER
+from analytics_parameters import *
+
 
 HOST = '127.0.0.1'
 client_PORT = 8443
