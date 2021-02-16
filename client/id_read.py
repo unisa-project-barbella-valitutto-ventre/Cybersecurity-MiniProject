@@ -1,29 +1,25 @@
 import os
 import csv
+import random
 
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
+filename= ROOT_DIR + "/../authorityServer/database.csv"
 
-def read_csv(csv_path, read_valid_id):
+def read_random_lines():
     """
-    This function allows to read csv file and to get an id from the database.
+    This function allows to scan csv file and to get a random id from the database.
 
-    Args:
-        csv_path (string): the path of csv file to read
-        read_valid_id (bool): it is True or False to indicates if we want an id valid or not
-        
     Returns:
         [string]: id read from database
     """
-    with open(ROOT_DIR+csv_path) as csvfile:
-        csvreader = csv.reader(csvfile, delimiter=' ')
-        if read_valid_id:
-            (next(csvreader))
-        else:
-            for i in range(0,11):
-                (next(csvreader))
+    lines = list()
 
+    with open(filename) as csvfile:
+        csvreader = csv.reader(csvfile, delimiter=',')
+        next(csvreader)
         for row in csvreader:
-            split = row[0].split(",")
-            id_name = split[0]
-            break
-        return id_name
+            lines.append(row[0])
+        
+        id_selected = random.choice(lines)
+
+    return id_selected

@@ -1,6 +1,7 @@
 #! /bin/python3
 
 import sys
+import threading
 from utils import check_id
 
 sys.path.append('../')
@@ -91,8 +92,11 @@ def main():
         secure_sock.close()
         server_socket.close()
 
+
+
 if __name__ == '__main__':
     print("*** AUTHORITY Server ***\n")
     while True:
         main()
+        # threading.Timer(60.0, check_id).start() # called every minute
 

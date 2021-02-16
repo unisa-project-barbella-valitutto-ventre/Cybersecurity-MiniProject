@@ -1,6 +1,29 @@
 import secrets
 import datetime
 import csv
+import random
+import utils
+
+fields = ['id', 'cod_device', 'id_time', 'cod_time']
+filename = "database.csv"
+
+def shuffle_database():
+    """
+    Function to shuffle the database
+    """
+    lines = list()
+    with open(filename, 'r') as readFile:
+        reader = csv.reader(readFile)
+        next(reader)
+        for row in reader:
+                lines.append(row)
+
+    random.shuffle(lines)
+
+    with open(filename, 'w') as writeFile:
+        writer = csv.writer(writeFile)
+        writer.writerow(fields)
+        writer.writerows(lines)
 
 
 if __name__ == "__main__":
@@ -18,8 +41,6 @@ if __name__ == "__main__":
     """
     mydict = {}
 
-    fields = ['id', 'cod_device', 'id_time', 'cod_time']
-    filename = "database.csv"
     with open(filename, 'w') as csvfile:  
         csvwriter = csv.writer(csvfile)   
         csvwriter.writerow(fields)
@@ -39,3 +60,5 @@ if __name__ == "__main__":
             time_code = datetime.datetime.now() - datetime.timedelta(hours=6)   # time 6 hours ago
             mydict = [ [id_temp, device_code, id_time, time_code] ]
             csvwriter.writerows(mydict)
+    
+    shuffle_database()

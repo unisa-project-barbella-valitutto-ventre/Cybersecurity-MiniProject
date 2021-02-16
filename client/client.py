@@ -9,9 +9,10 @@ import time
 from client_parameters import COMMON_NAME, ANALYTICS_SERVER_CERT_PATH
 from client_parameters import COUNTRY_NAME, ORGANIZATION_NAME, COUNTRY_NAME_ISSUER
 from client_parameters import COMMON_NAME_ISSUER, ORGANIZATION_NAME_ISSUER
-from id_read import read_csv
+from id_read import read_random_lines
 
 PATH_TO_CSV = "/../authorityServer/database.csv"
+NUMBER_OF_ID_TO_TEST = 4
 
 HOST = "127.0.0.1"
 PORT = 8443
@@ -91,34 +92,23 @@ def send_data_to_server(data):
 
 if __name__ == '__main__':
     """
-    We simulate two cases:
-        - Before we read a valid id from database
-        - After we read an invalid id from database
+    We simulate different cases. Its could be:
+        - Valid id from database
+        - Invalid id from database
     """
 
     print("### Notification Counter for Contact Tracing DP3T ###\n")
 
-    #ID valid
-    print("Simulation with valid ID:")
-    time.sleep(1)
-    print("Checking Expositions...")
-    time.sleep(2)
-    print("Checking Expositions... DONE\n")
-    root = tk.Tk()
-    root.withdraw()
-    messagebox.showwarning('Notification Monitoring', 'Potential Exposure detected!\n')
-    id = read_csv(PATH_TO_CSV, True)
-    # STANDARD_ID = 'X'*43
-    send_data_to_server(str.encode(id))
-
-    #ID not valid
-    print("Simulation with not valid ID:")
-    time.sleep(1)
-    print("Checking Expositions...")
-    time.sleep(2)
-    print("Checking Expositions... DONE\n")
-    root = tk.Tk()
-    root.withdraw()
-    messagebox.showwarning('Notification Monitoring', 'Potential Exposure detected!\n')
-    id = read_csv(PATH_TO_CSV, False)
-    send_data_to_server(str.encode(id))
+    # Starting simulation
+    for i in range(0, NUMBER_OF_ID_TO_TEST):
+        print("Simulation with ID received from device:")
+        time.sleep(1)
+        print("Checking Expositions...")
+        time.sleep(2)
+        print("Checking Expositions... DONE\n")
+        root = tk.Tk()
+        root.withdraw()
+        messagebox.showwarning('Notification Monitoring', 'Potential Exposure detected!\n')
+        id = read_random_lines()
+        send_data_to_server(str.encode(id))
+        time.sleep(1)
