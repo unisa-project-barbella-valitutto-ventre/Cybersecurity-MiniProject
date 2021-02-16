@@ -10,7 +10,7 @@ from id_read import read_random_lines
 from client_parameters import *
 
 PATH_TO_CSV = "/../authorityServer/database.csv"
-NUMBER_OF_ID_TO_TEST = 4
+NUMBER_OF_ID_TO_TEST = 20
 
 HOST = "127.0.0.1"
 PORT = 8443
@@ -97,7 +97,6 @@ if __name__ == '__main__':
 
     print("### Notification Counter for Contact Tracing DP3T ###\n")
 
-<<<<<<< HEAD
     # Starting simulation
     for i in range(0, NUMBER_OF_ID_TO_TEST):
         print("Simulation with ID received from device:")
