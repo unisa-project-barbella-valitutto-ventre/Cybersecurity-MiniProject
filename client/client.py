@@ -122,3 +122,7 @@ if __name__ == '__main__':
     messagebox.showwarning('Notification Monitoring', 'Potential Exposure detected!\n')
     id = read_csv(PATH_TO_CSV, False)
     send_data_to_server(str.encode(id))
+    
+    print("END of Simulation.\nYou can close all terminal windows.")
+    time.sleep(7)
+    
