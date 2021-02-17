@@ -2,19 +2,16 @@
 #! /bin/python3
 
 import sys
-
-sys.path.append('../')
-
 import socket
 import ssl
 import time
 from analytics_parameters import *
 
+sys.path.append('../')
 
 HOST = '127.0.0.1'
 client_PORT = 8443
 server_PORT = 8446
-
 MAX_MESSAGE_SIZE = 43
 
 def verify_server(cert):
@@ -154,6 +151,10 @@ def main():
 
 if __name__ == '__main__':
     print("*** ANALYTICS Server ***\n")
-    while True:
+    
+    # 3 is the number of ID received from the client
+    for i in range (0,3):
         main()
+    print("Simulation ended!")
+    time.sleep(1)
 

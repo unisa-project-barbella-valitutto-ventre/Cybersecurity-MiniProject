@@ -2,24 +2,26 @@ import os
 import csv
 import random
 
+STANDARD_ID = 'X'*43
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
-filename= ROOT_DIR + "/../authorityServer/database.csv"
 
-def read_random_lines():
+def read_csv(filename):
     """
-    This function allows to scan csv file and to get a random id from the database.
+    This function allows to scan csv file and to get an id from the database.
+
+    Args:
+        filename (string): path to the csv file
 
     Returns:
         [string]: id read from database
     """
-    lines = list()
 
-    with open(filename) as csvfile:
+    with open(ROOT_DIR+filename) as csvfile:
         csvreader = csv.reader(csvfile, delimiter=',')
         next(csvreader)
         for row in csvreader:
-            lines.append(row[0])
-        
-        id_selected = random.choice(lines)
+            if row[0] != STANDARD_ID:
+                id_selected = row[0]
+                break
 
     return id_selected

@@ -7,25 +7,6 @@ import utils
 fields = ['id', 'cod_device', 'id_time', 'cod_time']
 filename = "database.csv"
 
-def shuffle_database():
-    """
-    Function to shuffle the database
-    """
-    lines = list()
-    with open(filename, 'r') as readFile:
-        reader = csv.reader(readFile)
-        next(reader)
-        for row in reader:
-                lines.append(row)
-
-    random.shuffle(lines)
-
-    with open(filename, 'w') as writeFile:
-        writer = csv.writer(writeFile)
-        writer.writerow(fields)
-        writer.writerows(lines)
-
-
 if __name__ == "__main__":
     """
     Function to populate database in order to test the simulation:
@@ -46,19 +27,17 @@ if __name__ == "__main__":
         csvwriter.writerow(fields)
         
         for c in range (0,10):
+            # ID valid
             id_temp = secrets.token_urlsafe(32)
             device_code = "Android_"+secrets.token_urlsafe(8)
             id_time = datetime.datetime.now()   # time at this moment
             time_code = datetime.datetime.now()
             mydict = [ [id_temp, device_code, id_time, time_code] ]
             csvwriter.writerows(mydict)
-
-        for c in range (0,10):
+            # ID invalid
             id_temp = secrets.token_urlsafe(32)
             device_code = "Apple_"+secrets.token_urlsafe(8)
             id_time = datetime.datetime.now() - datetime.timedelta(minutes=15)  # time 15 minutes ago
             time_code = datetime.datetime.now() - datetime.timedelta(hours=6)   # time 6 hours ago
             mydict = [ [id_temp, device_code, id_time, time_code] ]
             csvwriter.writerows(mydict)
-    
-    shuffle_database()

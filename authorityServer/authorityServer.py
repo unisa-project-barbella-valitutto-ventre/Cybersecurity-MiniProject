@@ -1,19 +1,16 @@
 #! /bin/python3
 
 import sys
-import threading
-from utils import check_id
-
-sys.path.append('../')
-
 import socket
 import ssl
 import time
+from utils import check_id
 from authority_parameters import *
+
+sys.path.append('../')
 
 HOST = '127.0.0.1'
 PORT = 8446     # analitycserver port
-
 MESSAGE_SIZE = 43 # dimension of 32 byte encoded in Base64
 
 def verify_client(cert):
@@ -95,7 +92,9 @@ def main():
 
 if __name__ == '__main__':
     print("*** AUTHORITY Server ***\n")
-    while True:
+    
+    # 3 is the number of ID received from Analytics Server
+    for i in range (0,3):
         main()
-        # threading.Timer(60.0, check_id).start() # called every minute
-
+    print("Simulation ended!")
+    time.sleep(1)
