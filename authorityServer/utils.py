@@ -104,7 +104,7 @@ def check_id_date(ID_date):
         remove_id_row_after_10m(ID_date)
         return False
     else:
-        print("Id valid")
+        print("Id Valid")
         return True
 
 def check_id(ID_to_verify):
@@ -119,7 +119,7 @@ def check_id(ID_to_verify):
     Returns:
         [bool]: True if Id is still valid, False otherwise
     """
-    i=0
+
     if ID_to_verify != STANDARD_ID:
         with open('database.csv', 'r') as readFile:
             reader = csv.DictReader(readFile, delimiter=',')
@@ -131,18 +131,8 @@ def check_id(ID_to_verify):
                 if temp_id == ID_to_verify:
                     if check_id_date(date_time_obj):
                         replace_ID_after_loaded(ID_to_verify)
-                        i=1
-                        break
-                    else:
-                        i=2
-                else:
-                    i=3
-    else:
-        i=4
+                        return True
 
-    if i==1:
-        return True
-    else:
-        return False
+    return False
 
 # if __name__ == "__main__":

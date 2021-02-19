@@ -75,9 +75,12 @@ def send_data_to_server(data):
 
     received_data = secure_sock.read(MAX_MESSAGE_SIZE)
     print(received_data.decode())
+    print("Sending ID to Server...")
     secure_sock.write(data) #Forward ID to authoritative Server
+    print("Waiting for the response...")
     received_data = secure_sock.read(MAX_MESSAGE_SIZE)
 
+    time.sleep(2)
     ack_check = False
     if received_data.decode() == 'ACK':
         ack_check = True
@@ -127,19 +130,21 @@ def main():
         if len(data) != MAX_MESSAGE_SIZE:
             raise IndexError
         
-        ack_check = send_data_to_server(data)
         time.sleep(1)
+        ack_check = send_data_to_server(data)
+        time.sleep(2)
         if ack_check:
             count_read = open("counter.txt", "r").read()
             counter_update = int(count_read) + 1
-            print(counter_update)
+            #print(counter_update)
             count_write = open("counter.txt", "w")
             count_write.write(str(counter_update))    
-            print("Counter Updated.\n")
+            print("Counter Updated: " + str(counter_update))
             secure_sock.write(b'ACK') #Send ACK to device
 
         else:
-            print("Counter Not Updated.\n")
+            count_read = open("counter.txt", "r").read()
+            print("Counter Not Updated: " + count_read)
             secure_sock.write(b'NACK') #Send NACK to device
 
     except IndexError as e:\
@@ -155,6 +160,8 @@ if __name__ == '__main__':
     # 3 is the number of ID received from the client
     for i in range (0,3):
         main()
+        print("--------------\n")
+
     print("Simulation ended!")
-    time.sleep(1)
+    time.sleep(3)
 

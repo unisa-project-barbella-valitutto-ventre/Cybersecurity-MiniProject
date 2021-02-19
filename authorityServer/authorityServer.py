@@ -65,21 +65,23 @@ def main():
     try:
         secure_sock.write(b"Authority Server connected !")
         data = secure_sock.read(MESSAGE_SIZE)   # id received from analytics server
+        time.sleep(2)
         print("ID from analytics server: " + data.decode())
         
         if len(data) != MESSAGE_SIZE:
             raise IndexError
 
         # check id in database
+        print("Checking database...")
         id_to_check = data.decode()
         if check_id(id_to_check):
             time.sleep(1)
             secure_sock.write(b"ACK")
-            print("ACK sent !\n")
+            print("ACK sent !")
         else:
             time.sleep(1)
             secure_sock.write(b"NACK")
-            print("NACK sent !\n")
+            print("NACK sent !")
 
     except IndexError as e:\
         secure_sock.write(b'NACK')
@@ -96,5 +98,6 @@ if __name__ == '__main__':
     # 3 is the number of ID received from Analytics Server
     for i in range (0,3):
         main()
+        print("--------------\n")
     print("Simulation ended!")
-    time.sleep(1)
+    time.sleep(3)
