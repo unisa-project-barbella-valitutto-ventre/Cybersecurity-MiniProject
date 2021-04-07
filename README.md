@@ -3,7 +3,6 @@ This repository is created for the mini project integration related to the "Cybe
 
 ## Group Members
 * [Michele Barbella](https://github.com/michelebarbella)
-* [Andrea Valitutto](https://github.com/andrewvali)
 * [Salvatore Ventre](https://github.com/salventre)
 ___
 # Problem Description
@@ -59,4 +58,4 @@ cd client/
 python3 client.py
 ```
 
-##### Barbella, Valitutto, Ventre
+##### Barbella & Ventre
